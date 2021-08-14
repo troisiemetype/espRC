@@ -1,0 +1,13 @@
+Things to implement :
+	Commands :
+		Commands in from transmitter :
+			PPM
+			S.bus
+		Commands out to servos / ESC / etc. :
+			PPM
+			S.bus
+	Telemetry :
+		Telemetry out to transmitter :
+			smart port
+		Telemetry polling (receiver side) :
+			smart port
