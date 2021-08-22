@@ -23,25 +23,25 @@
 
 #include "espRCControls.h"
 
-class espRCSbus{
+class RCSbus{
 public:
 	virtual bool update() = 0;
 
-	const uint8_t FRAME_LENGTH = 25;
-	const uint8_t HEADER = 0x0F;
-	const uint8_t FOOTER = 0x00;
-	const uint16_t NEUTRAL = 992;
-	const uint16_t RESOLUTION = 819;
-	const uint8_t NUM_CHANNEL = 18;
+	static const uint8_t FRAME_LENGTH = 25;
+	static const uint8_t HEADER = 0x0F;
+	static const uint8_t FOOTER = 0x00;
+	static const uint16_t NEUTRAL = 992;
+	static const uint16_t RESOLUTION = 819;
+	static const uint8_t NUM_CHANNEL = 18;
 
 protected:
 
 };
 
-class espRCSbusIn : public espRCControlsIn, public espRCSbus{
+class RCSbusIn : public RCControlsIn, public RCSbus{
 public:
-	espRCSbusIn(uint8_t pin, uint8_t serial);
-	~espRCSbusIn();
+	RCSbusIn(uint8_t pin, uint8_t serial);
+	~RCSbusIn();
 
 	bool update();
 
@@ -55,10 +55,10 @@ protected:
 	
 };
 
-class espRCSbusOut : public espRCControlsOut, public espRCSbus{
+class RCSbusOut : public RCControlsOut, public RCSbus{
 public:
-	espRCSbusOut(uint8_t pin);
-	~espRCSbusOut();
+	RCSbusOut(uint8_t pin);
+	~RCSbusOut();
 
 	bool update();
 

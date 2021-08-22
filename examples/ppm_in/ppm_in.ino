@@ -22,20 +22,20 @@ const uint8_t PIN_PPM = 16;
 
 uint8_t numChannels = 0;
 
-espRCPpmIn ppmIn(PIN_PPM, 0);
+RCPpmIn ppmIn(PIN_PPM, 0);
 
 //espRCControls controls;
-
+/*
 void ppmISR(){
 	ppmIn.isr();
 }
-
+*/
 void setup(){
 	Serial.begin(115200);
 
 	numChannels = ppmIn.getNumberChannels();
-//
-	attachInterrupt(PIN_PPM, ppmISR, RISING);
+
+//	attachInterrupt(PIN_PPM, ppmISR, RISING);
 
 }
 

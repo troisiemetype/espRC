@@ -18,7 +18,7 @@
 
  #include "espRCSbus.h"
 
-espRCSbusIn::espRCSbusIn(uint8_t pin, uint8_t serial) : _sbus(serial){
+RCSbusIn::RCSbusIn(uint8_t pin, uint8_t serial) : _sbus(serial){
 	if(serial > 2) return;
 
 	_sbus.begin(100000, SERIAL_8E2, pin, -1, true);
@@ -40,13 +40,13 @@ espRCSbusIn::espRCSbusIn(uint8_t pin, uint8_t serial) : _sbus(serial){
 	_data.numChannel = NUM_CHANNEL;
 }
 
-espRCSbusIn::~espRCSbusIn(){
+RCSbusIn::~RCSbusIn(){
 	delete[] _data.channel;
 	delete[] _tempCh;
 
 }
 
-bool espRCSbusIn::update(){
+bool RCSbusIn::update(){
 	while(_sbus.available()){
 		uint8_t b = _sbus.read();
 
@@ -69,7 +69,7 @@ bool espRCSbusIn::update(){
 	return false;
 }
 
-void espRCSbusIn::_processChannels(){
+void RCSbusIn::_processChannels(){
 	memset(_tempCh, 0, sizeof(int16_t) * NUM_CHANNEL);
 
 	for (uint8_t i = 0; i < 176; ++i){

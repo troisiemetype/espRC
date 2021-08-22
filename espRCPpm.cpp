@@ -18,7 +18,9 @@
 
 #include "espRCPpm.h"
 
-espRCPpmIn::espRCPpmIn(uint8_t pin, uint8_t timer, uint8_t numChannel, uint16_t neutral){
+RCPpmIn* RCPpmIn::_pInstance = nullptr;
+
+RCPpmIn::RCPpmIn(uint8_t pin, uint8_t timer, uint8_t numChannel, uint16_t neutral){
 	if(numChannel > 16) return;
 	if(timer > 3) return;
 
@@ -33,19 +35,23 @@ espRCPpmIn::espRCPpmIn(uint8_t pin, uint8_t timer, uint8_t numChannel, uint16_t 
 	_resolution = 1024;
 	_currentCh = 0;
 
+	_pInstance = this;
+
 	_mux = portMUX_INITIALIZER_UNLOCKED;
 
 	pinMode(_pin, INPUT);
 
 	_timer = timerBegin(timer, 40, true);
+	attachInterrupt(pin, _isrStatic, RISING);
+
 }
 
-espRCPpmIn::~espRCPpmIn(){
+RCPpmIn::~RCPpmIn(){
 	delete[] _data.channel;
 	delete[] _tempCh;
 }
 
-bool espRCPpmIn::update(){
+bool RCPpmIn::update(){
 	if(!_hasNew) return false;
 	_hasNew = false;
 
@@ -58,7 +64,15 @@ bool espRCPpmIn::update(){
 	return true;
 }
 
-void espRCPpmIn::isr(){
+// Protected methods
+
+void RCPpmIn::_isrStatic(){
+	if(_pInstance == nullptr) return;
+
+	_pInstance->_isr();
+}
+
+void RCPpmIn::_isr(){
 	uint64_t time = timerRead(_timer);
 	timerRestart(_timer);
 	if(time > 6000){

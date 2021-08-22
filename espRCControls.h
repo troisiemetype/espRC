@@ -21,7 +21,7 @@
 
 #include <Arduino.h>
 
-class espRCControls{
+class RCControls{
 public:
 
 	struct controlData_t{
@@ -40,7 +40,7 @@ protected:
 	volatile bool _hasNew;
 };
 
-class espRCControlsIn : public espRCControls{
+class RCControlsIn : public RCControls{
 public:
 	virtual bool update() = 0;
 
@@ -55,7 +55,7 @@ private:
 
 };
 
-class espRCControlsOut : public espRCControls{
+class RCControlsOut : public RCControls{
 public:
 	virtual bool update() = 0;
 

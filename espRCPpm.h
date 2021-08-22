@@ -23,16 +23,19 @@
 
 #include "espRCControls.h"
 
-class espRCPpmIn : public espRCControlsIn{
+class RCPpmIn : public RCControlsIn{
 public:
-	espRCPpmIn(uint8_t pin, uint8_t timer, uint8_t numChannel = 8, uint16_t neutral = 3000);
-	~espRCPpmIn();
+	RCPpmIn(uint8_t pin, uint8_t timer, uint8_t numChannel = 8, uint16_t neutral = 3000);
+	~RCPpmIn();
 	
 	bool update();
 
-	void isr();
-
 protected:
+    static void _isrStatic();
+    void _isr();
+
+    static RCPpmIn* _pInstance;
+    
 	hw_timer_t *_timer;
 	portMUX_TYPE _mux;
 	int8_t _currentCh;
